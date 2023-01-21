@@ -9,7 +9,6 @@ function useFetch() {
       setIsLoading(true);
 
       const response = await fetch(url);
-      console.log(response);
       if (!response.ok) {
         const apiError = new Error(
           `A resposta da url ${url} veio com o status ${response.status}`,

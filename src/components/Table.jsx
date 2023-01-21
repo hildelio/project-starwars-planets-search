@@ -1,13 +1,22 @@
 import React, { useContext } from 'react';
-import AppContext from '../context/AppContext';
+import FilterContext from '../context/FilterContext';
+import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { isLoading, planets } = useContext(AppContext);
+  const { isLoading, planets } = useContext(PlanetContext);
+  const { nameFilter, setNameFilter, nameFiltered } = useContext(FilterContext);
   return (
     <div>
+      <input
+        type="text"
+        data-testid="name-filter"
+        value={ nameFilter }
+        name="nameFilter"
+        onChange={ ({ target }) => setNameFilter(target.value) }
+      />
       {isLoading && <p>Loading...</p>}
       {
-        planets.length > 0 && (
+        nameFiltered.length > 0 && (
           <table>
             <thead>
               <tr>
@@ -16,7 +25,7 @@ function Table() {
             </thead>
             <tbody>
               {
-                planets.map(({
+                nameFiltered.map(({
                   name, rotation_period: rotation, orbital_period: orbital, diameter,
                   climate, gravity, terrain, surface_water: surface, population,
                   films, created, edited, url,

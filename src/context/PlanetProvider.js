@@ -1,24 +1,21 @@
 import { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import AppContext from './AppContext';
+import PlanetContext from './PlanetContext';
 import useFetch from '../hooks/useFetch';
 
-function AppProvider({ children }) {
+function PlanetProvider({ children }) {
   const { errors, isLoading, makeFetch } = useFetch();
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
     async function fetching(url) {
       const data = await makeFetch(url);
-      console.log('data', data);
 
       const filteredPlanets = data.results
         .filter((allPlanets) => {
           delete allPlanets.residents;
           return allPlanets;
         });
-
-      console.log('planets', filteredPlanets);
 
       setPlanets(filteredPlanets);
     }
@@ -31,15 +28,15 @@ function AppProvider({ children }) {
   }), [errors, isLoading, planets]);
 
   return (
-    <AppContext.Provider value={ values }>
+    <PlanetContext.Provider value={ values }>
       {children}
-    </AppContext.Provider>
+    </PlanetContext.Provider>
   );
 }
 
-AppProvider.propTypes = {
+PlanetProvider.propTypes = {
   children: PropTypes.node,
 
 }.isRequired;
 
-export default AppProvider;
+export default PlanetProvider;

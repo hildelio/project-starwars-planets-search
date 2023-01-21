@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import AppProvider from './context/AppProvider';
+import FilterProvider from './context/FilterProvider';
+import PlanetProvider from './context/PlanetProvider';
 
 ReactDOM
   .createRoot(document.getElementById('root'))
   .render(
-    <AppProvider>
-      <App />
-    </AppProvider>,
+    <PlanetProvider>
+      <FilterProvider>
+        <App />
+      </FilterProvider>
+    </PlanetProvider>,
   );
