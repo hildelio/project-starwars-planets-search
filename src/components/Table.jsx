@@ -4,16 +4,9 @@ import PlanetContext from '../context/PlanetContext';
 
 function Table() {
   const { isLoading, planets } = useContext(PlanetContext);
-  const { nameFilter, setNameFilter, nameFiltered } = useContext(FilterContext);
+  const { nameFiltered } = useContext(FilterContext);
   return (
     <div>
-      <input
-        type="text"
-        data-testid="name-filter"
-        value={ nameFilter }
-        name="nameFilter"
-        onChange={ ({ target }) => setNameFilter(target.value) }
-      />
       {isLoading && <p>Loading...</p>}
       {
         nameFiltered.length > 0 && (

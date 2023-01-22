@@ -8,16 +8,36 @@ function FilterProvider({ children }) {
   const { planets } = useContext(PlanetContext);
   const [nameFilter, setNameFilter] = useState('');
   const [nameFiltered, setNameFiltered] = useState([]);
+  const [columnFilter, setColumnFilter] = useState('population');
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
+  const [valueFilter, setValueFilter] = useState('0');
 
-  const { filteringName } = useFilter();
+  const { filteringName, filteringColumn } = useFilter();
+
+  const handleClick = () => {
+    setNameFiltered(
+      filteringColumn(nameFiltered, columnFilter, comparisonFilter, valueFilter),
+    );
+  };
 
   useEffect(() => {
     setNameFiltered(filteringName(planets, nameFilter));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planets, nameFilter]);
 
   const values = useMemo(() => ({
-    nameFilter, nameFiltered, setNameFilter,
-  }), [nameFilter, nameFiltered]);
+    nameFilter,
+    nameFiltered,
+    setNameFilter,
+    columnFilter,
+    setColumnFilter,
+    comparisonFilter,
+    setComparisonFilter,
+    valueFilter,
+    setValueFilter,
+    handleClick,
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }), [valueFilter, comparisonFilter, columnFilter, nameFilter, nameFiltered]);
 
   return (
     <FilterContext.Provider value={ values }>
