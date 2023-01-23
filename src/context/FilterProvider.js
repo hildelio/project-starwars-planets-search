@@ -13,6 +13,13 @@ function FilterProvider({ children }) {
     comparisonFilter: 'maior que',
     valueFilter: '0',
   });
+  const [columnFilterItems, setColumnFilterItems] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const { filteringName, filteringColumn } = useFilter();
 
@@ -30,12 +37,18 @@ function FilterProvider({ children }) {
   };
 
   const handleClick = () => {
+    const { columnFilter } = filteringByNumberWithColumn;
     setNameFiltered(
       filteringColumn(
         nameFiltered,
         filteringByNumberWithColumn,
       ),
     );
+    const columnItemsFiltered = columnFilterItems
+      .filter((items) => items !== columnFilter);
+    setColumnFilterItems([
+      ...columnItemsFiltered,
+    ]);
   };
 
   const values = useMemo(() => ({
@@ -46,6 +59,9 @@ function FilterProvider({ children }) {
     setFilteringByNumberWithColumn,
     handleClick,
     handleChange,
+    columnFilterItems,
+    setColumnFilterItems,
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [filteringByNumberWithColumn, nameFilter, nameFiltered]);
 
