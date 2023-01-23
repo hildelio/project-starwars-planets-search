@@ -8,6 +8,7 @@ function FilterProvider({ children }) {
   const { planets } = useContext(PlanetContext);
   const [nameFilter, setNameFilter] = useState('');
   const [nameFiltered, setNameFiltered] = useState([]);
+  const [header, setHeader] = useState([]);
   const [filteringByNumberWithColumn, setFilteringByNumberWithColumn] = useState({
     columnFilter: 'population',
     comparisonFilter: 'maior que',
@@ -25,6 +26,7 @@ function FilterProvider({ children }) {
 
   useEffect(() => {
     setNameFiltered(filteringName(planets, nameFilter));
+    setHeader(filteringName(planets, nameFilter));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planets, nameFilter]);
 
@@ -61,7 +63,8 @@ function FilterProvider({ children }) {
     handleChange,
     columnFilterItems,
     setColumnFilterItems,
-
+    header,
+    setHeader,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [filteringByNumberWithColumn, nameFilter, nameFiltered]);
 
