@@ -3,10 +3,10 @@ import FilterContext from '../context/FilterContext';
 
 function FilterForm() {
   const {
-    nameFilter, setNameFilter, columnFilter, setColumnFilter, comparisonFilter,
-    setComparisonFilter, valueFilter, setValueFilter, handleClick,
+    nameFilter, setNameFilter, handleClick, handleChange, filteringByNumberWithColumn,
   } = useContext(FilterContext);
 
+  const { columnFilter, comparisonFilter, valueFilter } = filteringByNumberWithColumn;
   return (
     <form>
       <input
@@ -21,7 +21,7 @@ function FilterForm() {
         data-testid="column-filter"
         value={ columnFilter }
         name="columnFilter"
-        onChange={ ({ target }) => setColumnFilter(target.value) }
+        onChange={ ({ target }) => handleChange(target) }
       >
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
@@ -34,7 +34,7 @@ function FilterForm() {
         data-testid="comparison-filter"
         value={ comparisonFilter }
         name="comparisonFilter"
-        onChange={ ({ target }) => setComparisonFilter(target.value) }
+        onChange={ ({ target }) => handleChange(target) }
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
@@ -46,7 +46,7 @@ function FilterForm() {
         data-testid="value-filter"
         value={ valueFilter }
         name="valueFilter"
-        onChange={ ({ target }) => setValueFilter(target.value) }
+        onChange={ ({ target }) => handleChange(target) }
       />
 
       <button

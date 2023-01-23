@@ -8,36 +8,46 @@ function FilterProvider({ children }) {
   const { planets } = useContext(PlanetContext);
   const [nameFilter, setNameFilter] = useState('');
   const [nameFiltered, setNameFiltered] = useState([]);
-  const [columnFilter, setColumnFilter] = useState('population');
-  const [comparisonFilter, setComparisonFilter] = useState('maior que');
-  const [valueFilter, setValueFilter] = useState('0');
+  const [filteringByNumberWithColumn, setFilteringByNumberWithColumn] = useState({
+    columnFilter: 'population',
+    comparisonFilter: 'maior que',
+    valueFilter: '0',
+  });
 
   const { filteringName, filteringColumn } = useFilter();
 
-  const handleClick = () => {
-    setNameFiltered(
-      filteringColumn(nameFiltered, columnFilter, comparisonFilter, valueFilter),
-    );
-  };
-
   useEffect(() => {
     setNameFiltered(filteringName(planets, nameFilter));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planets, nameFilter]);
+
+  const handleChange = (target) => {
+    const { name, value } = target;
+    setFilteringByNumberWithColumn({
+      ...filteringByNumberWithColumn,
+      [name]: value,
+    });
+  };
+
+  const handleClick = () => {
+    setNameFiltered(
+      filteringColumn(
+        nameFiltered,
+        filteringByNumberWithColumn,
+      ),
+    );
+  };
 
   const values = useMemo(() => ({
     nameFilter,
     nameFiltered,
     setNameFilter,
-    columnFilter,
-    setColumnFilter,
-    comparisonFilter,
-    setComparisonFilter,
-    valueFilter,
-    setValueFilter,
+    filteringByNumberWithColumn,
+    setFilteringByNumberWithColumn,
     handleClick,
+    handleChange,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [valueFilter, comparisonFilter, columnFilter, nameFilter, nameFiltered]);
+  }), [filteringByNumberWithColumn, nameFilter, nameFiltered]);
 
   return (
     <FilterContext.Provider value={ values }>

@@ -4,9 +4,11 @@ function useFilter() {
 
   const filteringColumn = (
     nameFiltered,
-    columnFilter,
-    comparisonFilter,
-    valueFilter,
+    {
+      columnFilter,
+      comparisonFilter,
+      valueFilter,
+    },
   ) => nameFiltered.filter((planets) => {
     if (comparisonFilter === 'maior que') {
       return Number(valueFilter) < Number(planets[columnFilter]);
