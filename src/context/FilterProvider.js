@@ -51,6 +51,10 @@ function FilterProvider({ children }) {
     setColumnFilterItems([
       ...columnItemsFiltered,
     ]);
+    setFilteringByNumberWithColumn({
+      ...filteringByNumberWithColumn,
+      columnFilter: columnItemsFiltered[0],
+    });
   };
 
   const values = useMemo(() => ({
