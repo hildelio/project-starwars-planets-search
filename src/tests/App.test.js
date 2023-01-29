@@ -140,7 +140,17 @@ describe('Testar', () => {
       name: /x/i
     });
     userEvent.click(buttonDeleteFilterEl);
+  });
+  it('Verifica função de ordenar tabela ', async () => {
+    const columnSortEl = screen.getByTestId('column-sort');
+    const radioAscEl = screen.getByText(/ascendente/i);
+    const radioDescEl = screen.getByText(/descentente/i);
+    const buttonSortEl = screen.getByRole('button', {  name: /ordenar/i});
 
-
+    userEvent.selectOptions(columnSortEl, 'population')
+    userEvent.click(radioAscEl);
+    userEvent.click(radioDescEl);
+    userEvent.click(buttonSortEl);
+    expect
   });
 })

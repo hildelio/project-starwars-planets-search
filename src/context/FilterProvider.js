@@ -25,6 +25,16 @@ function FilterProvider({ children }) {
 
   const { filteringName, filteringColumn } = useFilter();
 
+  const [sort, setSort] = useState({ order: { column: '', sort: '' } });
+
+  const [columnSortItems, setColumnSortItems] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
   useEffect(() => {
     setNameFiltered(filteringName(planets, nameFilter));
     setHeader(filteringName(planets, nameFilter));
@@ -35,9 +45,27 @@ function FilterProvider({ children }) {
     filteredItems.forEach((filterUSed) => {
       setNameFiltered(filteringColumn(nameFiltered, filterUSed));
     });
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filteredItems]);
+
+  useEffect(() => {
+    const { order: { column, sort: radioOption } } = sort;
+    const filteringOrder = nameFiltered
+      .filter((planet) => planet[column] !== 'unknown');
+    switch (radioOption) {
+    case 'ASC':
+      filteringOrder.sort((a, b) => a[column] - b[column]);
+      break;
+    default:
+      filteringOrder.sort((a, b) => b[column] - a[column]);
+    }
+    const unknownItems = nameFiltered
+      .filter((planet) => planet[column] === 'unknown');
+
+    const orderFiltered = [...filteringOrder, ...unknownItems];
+    setNameFiltered(orderFiltered);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sort]);
 
   const handleChange = (target) => {
     const { name, value } = target;
@@ -109,8 +137,14 @@ function FilterProvider({ children }) {
     setFilteredItems,
     handleDeleteFilter,
     handleRemoveAllFilters,
+    sort,
+    setSort,
+    columnSortItems,
+    setColumnSortItems,
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }), [
+    columnSortItems,
+    sort,
     filteredItems,
     header,
     columnFilterItems,

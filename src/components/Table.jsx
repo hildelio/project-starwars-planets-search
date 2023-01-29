@@ -26,7 +26,7 @@ function Table() {
                 films, created, edited, url,
               }) => (
                 <tr key={ name }>
-                  <td>{name}</td>
+                  <td data-testid="planet-name">{name}</td>
                   <td>{rotation}</td>
                   <td>{orbital}</td>
                   <td>{diameter}</td>

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import FilterContext from '../context/FilterContext';
+import SortFilter from './SortFilter';
 
 function FilterForm() {
   const {
@@ -89,6 +90,7 @@ function FilterForm() {
           </fieldset>
         ))
       }
+      <SortFilter />
     </form>
   );
 }
