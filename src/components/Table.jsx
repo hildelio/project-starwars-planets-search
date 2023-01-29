@@ -4,12 +4,18 @@ import PlanetContext from '../context/PlanetContext';
 import Header from './Header';
 
 function Table() {
-  const { isLoading } = useContext(PlanetContext);
+  const { isLoading, errors } = useContext(PlanetContext);
   const { nameFiltered } = useContext(FilterContext);
   return (
     <table>
-      {isLoading && <p>Loading...</p>}
       <Header />
+      {isLoading && (
+        <thead>
+          <tr>
+            <td>Loading...</td>
+          </tr>
+        </thead>
+      )}
       {
         nameFiltered.length > 0 && (
           <tbody>
@@ -39,6 +45,9 @@ function Table() {
             }
           </tbody>
         )
+      }
+      {
+        errors && <p>Erro</p>
       }
     </table>
   );

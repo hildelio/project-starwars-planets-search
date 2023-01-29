@@ -21,6 +21,7 @@ function FilterProvider({ children }) {
     'rotation_period',
     'surface_water',
   ]);
+  const [filteredItems, setFilteredItems] = useState([]);
 
   const { filteringName, filteringColumn } = useFilter();
 
@@ -55,11 +56,15 @@ function FilterProvider({ children }) {
       ...filteringByNumberWithColumn,
       columnFilter: columnItemsFiltered[0],
     });
+    setFilteredItems([
+      ...filteredItems, filteringByNumberWithColumn,
+    ]);
   };
 
   const values = useMemo(() => ({
     nameFilter,
     nameFiltered,
+    setNameFiltered,
     setNameFilter,
     filteringByNumberWithColumn,
     setFilteringByNumberWithColumn,
@@ -69,8 +74,10 @@ function FilterProvider({ children }) {
     setColumnFilterItems,
     header,
     setHeader,
+    filteredItems,
+    setFilteredItems,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [filteringByNumberWithColumn, nameFilter, nameFiltered]);
+  }), [filteringByNumberWithColumn, nameFilter, nameFiltered, filteredItems]);
 
   return (
     <FilterContext.Provider value={ values }>

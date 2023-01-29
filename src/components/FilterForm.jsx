@@ -9,9 +9,20 @@ function FilterForm() {
     handleChange,
     filteringByNumberWithColumn,
     columnFilterItems,
+    filteredItems,
+    setFilteredItems,
+    setNameFiltered,
   } = useContext(FilterContext);
 
+  const { planets } = useContext(FilterContext);
+
   const { columnFilter, comparisonFilter, valueFilter } = filteringByNumberWithColumn;
+
+  const handleDeleteFilter = ({ target: { name } }) => {
+    console.log(name);
+    setNameFiltered(planets);
+    setFilteredItems();
+  };
   return (
     <form>
       <input
@@ -30,7 +41,6 @@ function FilterForm() {
       >
         {
           columnFilterItems
-            // .filter((value) => value !== columnFilter)
             .map((value) => <option key={ value }>{value}</option>)
         }
       </select>
@@ -61,6 +71,26 @@ function FilterForm() {
       >
         Filtrar
       </button>
+      {
+        filteredItems && filteredItems.map((e) => (
+          <fieldset key={ e.columnFilter }>
+            <p
+              key={ e.columnFilter }
+              data-testid="filter"
+            >
+              {`${e.columnFilter} ${e.comparisonFilter} ${e.valueFilter}`}
+            </p>
+            <button
+              type="button"
+              data-testid="button-remove-filters"
+              name={ e.columnFilter }
+              onClick={ handleDeleteFilter }
+            >
+              X
+            </button>
+          </fieldset>
+        ))
+      }
     </form>
   );
 }

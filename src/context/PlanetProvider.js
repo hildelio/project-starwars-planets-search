@@ -9,15 +9,19 @@ function PlanetProvider({ children }) {
 
   useEffect(() => {
     async function fetching(url) {
-      const data = await makeFetch(url);
+      try {
+        const data = await makeFetch(url);
 
-      const filteredPlanets = data.results
-        .filter((allPlanets) => {
-          delete allPlanets.residents;
-          return allPlanets;
-        });
+        const filteredPlanets = data.results
+          .filter((allPlanets) => {
+            delete allPlanets.residents;
+            return allPlanets;
+          });
 
-      setPlanets(filteredPlanets);
+        setPlanets(filteredPlanets);
+      } catch (error) {
+        console.log(error);
+      }
     }
     fetching('https://swapi.dev/api/planets');
   // eslint-disable-next-line react-hooks/exhaustive-deps
