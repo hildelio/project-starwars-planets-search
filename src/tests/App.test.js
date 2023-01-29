@@ -118,4 +118,29 @@ describe('Testar', () => {
     const errorMessage = await screen.findByText(/erro/i);
     expect(errorMessage).toBeInTheDocument();
   });
+  it('Verifica remoção de filtros ', async () => {
+    const removeFiltersEl = screen.getByTestId('button-remove-filters')
+    expect(removeFiltersEl).toBeInTheDocument();
+    userEvent.click(removeFiltersEl);
+
+
+    const columnFilterEl = screen.getByTestId('column-filter');
+    userEvent.selectOptions(columnFilterEl, 'surface_water');
+    const comparisonFilterEl = screen.getByTestId('comparison-filter');
+    userEvent.selectOptions(comparisonFilterEl, 'menor que');
+    const valueFilterEl = screen.getByTestId('value-filter');
+    userEvent.type(valueFilterEl, '40')
+    const buttonFilterEl = screen.getByTestId('button-filter');
+    userEvent.click(buttonFilterEl);
+
+    const filteredEl = await screen.findByTestId('filter')
+    expect(filteredEl).toBeInTheDocument();
+
+    const buttonDeleteFilterEl = screen.getByRole('button', {
+      name: /x/i
+    });
+    userEvent.click(buttonDeleteFilterEl);
+
+
+  });
 })

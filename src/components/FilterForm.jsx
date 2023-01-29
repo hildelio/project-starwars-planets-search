@@ -10,19 +10,12 @@ function FilterForm() {
     filteringByNumberWithColumn,
     columnFilterItems,
     filteredItems,
-    setFilteredItems,
-    setNameFiltered,
+    handleDeleteFilter,
+    handleRemoveAllFilters,
   } = useContext(FilterContext);
-
-  const { planets } = useContext(FilterContext);
 
   const { columnFilter, comparisonFilter, valueFilter } = filteringByNumberWithColumn;
 
-  const handleDeleteFilter = ({ target: { name } }) => {
-    console.log(name);
-    setNameFiltered(planets);
-    setFilteredItems();
-  };
   return (
     <form>
       <input
@@ -71,18 +64,23 @@ function FilterForm() {
       >
         Filtrar
       </button>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+        onClick={ handleRemoveAllFilters }
+      >
+        Remover Filtros
+      </button>
       {
         filteredItems && filteredItems.map((e) => (
-          <fieldset key={ e.columnFilter }>
+          <fieldset key={ e.columnFilter } data-testid="filter">
             <p
               key={ e.columnFilter }
-              data-testid="filter"
             >
               {`${e.columnFilter} ${e.comparisonFilter} ${e.valueFilter}`}
             </p>
             <button
               type="button"
-              data-testid="button-remove-filters"
               name={ e.columnFilter }
               onClick={ handleDeleteFilter }
             >

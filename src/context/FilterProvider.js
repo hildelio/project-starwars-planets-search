@@ -31,6 +31,14 @@ function FilterProvider({ children }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [planets, nameFilter]);
 
+  useEffect(() => {
+    filteredItems.forEach((filterUSed) => {
+      setNameFiltered(filteringColumn(nameFiltered, filterUSed));
+    });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filteredItems]);
+
   const handleChange = (target) => {
     const { name, value } = target;
     setFilteringByNumberWithColumn({
@@ -61,6 +69,29 @@ function FilterProvider({ children }) {
     ]);
   };
 
+  const handleDeleteFilter = ({ target: { name } }) => {
+    setNameFiltered(planets);
+    const removeFilteredItems = filteredItems
+      .filter((items) => items.columnFilter !== name);
+    setFilteredItems(removeFilteredItems);
+    setColumnFilterItems([
+      ...columnFilterItems,
+      name,
+    ]);
+  };
+
+  const handleRemoveAllFilters = () => {
+    setNameFiltered(planets);
+    setFilteredItems([]);
+    setColumnFilterItems([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ]);
+  };
+
   const values = useMemo(() => ({
     nameFilter,
     nameFiltered,
@@ -76,8 +107,17 @@ function FilterProvider({ children }) {
     setHeader,
     filteredItems,
     setFilteredItems,
+    handleDeleteFilter,
+    handleRemoveAllFilters,
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }), [filteringByNumberWithColumn, nameFilter, nameFiltered, filteredItems]);
+  }), [
+    filteredItems,
+    header,
+    columnFilterItems,
+    filteringByNumberWithColumn,
+    nameFilter,
+    nameFiltered,
+  ]);
 
   return (
     <FilterContext.Provider value={ values }>
